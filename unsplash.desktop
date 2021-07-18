@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Exec=unsplash set mountains
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name[en_CA]=Unsplash
+Name=Unsplash
+Comment[en_CA]=
+Comment=

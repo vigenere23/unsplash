@@ -1,0 +1,87 @@
+#!/bin/bash
+
+# url="https://source.unsplash.com/featured/2560x1440/?$1"
+# echo "Downloading from $url"
+# curl -L -o "$HOME/Pictures/wallpapers/unsplash/$(uuidgen).jpg" $url
+
+BASE_FOLDER="$(dirname $(readlink -f $0))"
+CURRENT_WALLPAPER_FOLDER="$BASE_FOLDER/current"
+SAVED_WALLPAPERS_FOLDER="$BASE_FOLDER/saved"
+BASE_URL="https://source.unsplash.com/featured/2560x1440/?"
+
+function show_help {
+    echo "
+Unsplash CLI help
+
+Usage: unsplash [COMMAND]
+
+    Commands:
+    ---------
+    set <topics> : change the current wallpaper to a random one from <topics>
+
+    save : save the current wallpaper to a 'saved' directory
+
+    help : show this message
+
+    uninstall : uninstall this program
+    "
+}
+
+function save_current_wallpaper {
+    if [ ! -z "$(ls -A $CURRENT_WALLPAPER_FOLDER)" ]; then
+        echo "No wallpaper currently set. Please set one using the 'set' command."
+        exit 1
+    fi
+
+    cp "$CURRENT_WALLPAPER_FOLDER"/* "$SAVED_WALLPAPERS_FOLDER"
+}
+
+function set_new_wallpaper {
+    topics=$1
+
+    if [[ ! $topics ]]; then
+        echo "Missing <topics>"
+        show_help
+        exit 1
+    fi
+
+    url="$BASE_URL$1"
+    filename="$CURRENT_WALLPAPER_FOLDER/$(uuidgen).jpg"
+
+    if [ ! -z "$(ls -A $CURRENT_WALLPAPER_FOLDER)" ]; then
+        rm "$CURRENT_WALLPAPER_FOLDER"/*
+    fi
+
+    echo "Downloading new random wallpaper from $url"
+    curl -L -s -o "$filename" "$url"
+    echo "Setting new random wallpaper"
+    gsettings set org.gnome.desktop.background picture-uri "file://$filename"
+    gsettings set org.gnome.desktop.screensaver picture-uri "file://$filename"
+}
+
+function uninstall {
+    "$BASE_FOLDER/uninstall.sh"
+}
+
+function choose_command {
+    case $1 in
+    "set")
+        set_new_wallpaper $2
+        ;;
+    "save")
+        save_current_wallpaper
+        ;;
+    "uninstall")
+        uninstall
+        ;;
+    "help")
+        show_help
+        ;;
+    *)
+        show_help
+        exit 1
+        ;;
+    esac
+}
+
+choose_command $1 $2
