@@ -25,7 +25,7 @@ if [ ! -e "$HOME"/.local/bin/unsplash ]; then
     ln -s "$INSTALLATION_DIR/unsplash" "$HOME"/.local/bin/unsplash
 fi
 
-if [ ! -e "$HOME"/.config/autostart ]; then
+if [ ! -e "$HOME"/.config/autostart/unsplash.desktop ]; then
     ln -s "$INSTALLATION_DIR/unsplash.desktop" "$HOME"/.config/autostart
 fi
 
