@@ -28,7 +28,7 @@ Usage: unsplash [COMMAND]
 }
 
 function save_current_wallpaper {
-    if [ ! -z "$(ls -A $CURRENT_WALLPAPER_FOLDER)" ]; then
+    if [ -z "$(ls -A $CURRENT_WALLPAPER_FOLDER)" ]; then
         echo "No wallpaper currently set. Please set one using the 'set' command."
         exit 1
     fi
