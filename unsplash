@@ -46,17 +46,23 @@ function set_new_wallpaper {
     fi
 
     url="$BASE_URL$1"
-    filename="$CURRENT_WALLPAPER_FOLDER/$(uuidgen).jpg"
+    filename="$(uuidgen).jpg"
+    temp_location="/tmp/$filename"
+    final_location="$CURRENT_WALLPAPER_FOLDER/$filename"
+
+    echo "Downloading new random wallpaper from $url"
+    curl -L -s -o "$temp_location" "$url"
+
+    echo "Setting new random wallpaper"
 
     if [ ! -z "$(ls -A $CURRENT_WALLPAPER_FOLDER)" ]; then
         rm "$CURRENT_WALLPAPER_FOLDER"/*
     fi
 
-    echo "Downloading new random wallpaper from $url"
-    curl -L -s -o "$filename" "$url"
-    echo "Setting new random wallpaper"
-    gsettings set org.gnome.desktop.background picture-uri "file://$filename"
-    gsettings set org.gnome.desktop.screensaver picture-uri "file://$filename"
+    mv "$temp_location" "$final_location"
+
+    gsettings set org.gnome.desktop.background picture-uri "file://$final_location"
+    gsettings set org.gnome.desktop.screensaver picture-uri "file://$final_location"
 }
 
 function uninstall {
