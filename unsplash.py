@@ -1,9 +1,10 @@
 #!.venv/bin/python
 
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter, Namespace, _SubParsersAction
-from commands.arguments import SetCommandArguments
 
-from commands.executor_provider import ExecutorProvider
+from src.commands.set.set_command_arguments import SetCommandArguments
+from src.commands.save.save_command import SaveCommand
+from src.commands.set.set_command_provider import SetCommandProvider
 
 
 def register_set_command(main_parser: _SubParsersAction) -> ArgumentParser:
@@ -29,13 +30,14 @@ def parse_args() -> Namespace:
 
 
 def run_command(args: Namespace) -> None:
-    executor = ExecutorProvider().provide()
-
     if args.command == 'set':
-        executor.set(SetCommandArguments())
+        command = SetCommandProvider().provide()
+        # TODO send args instead
+        command.execute(SetCommandArguments())
 
     if args.command == 'save':
-        executor.save_current()
+        command = SaveCommand()
+        command.execute()
 
 
 def main():

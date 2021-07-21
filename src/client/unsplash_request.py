@@ -3,7 +3,7 @@ from typing import List
 from urllib.parse import quote as urlencode
 import random
 
-from client.resolution import ResolutionFactory
+from src.client.resolution import ResolutionFactory
 
 
 class UnsplashRequestBuilder:
