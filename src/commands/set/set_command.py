@@ -1,10 +1,10 @@
 from abc import ABC, abstractmethod
 from pathlib import Path
-from os import path, listdir
+from os import path
 from shutil import rmtree
-from config.config_repository import ConfigRepository
 
 from src.client.unsplash_request import UnsplashRequestBuilder
+from src.commands.config.config_repository import ConfigRepository
 from src.commands.set.set_command_arguments import SetCommandArguments
 from src.images import ImageFetcher, WebImage
 
@@ -32,7 +32,7 @@ class SetCommand(ABC):
     def __get_url(self, args: SetCommandArguments):
         builder = UnsplashRequestBuilder()
 
-        builder.keyword_from(args.keywords or [self.__config.keyword])
+        builder.keyword_from(args.keywords or self.__config.keywords)
         builder.resolution(args.resolution or self.__config.resolution)
 
         url = builder.build()

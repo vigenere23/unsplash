@@ -1,6 +1,7 @@
 from dataclasses import dataclass
+from typing import List
 
 @dataclass
 class Config:
     resolution: str
-    keyword: str
+    keywords: List[str]
