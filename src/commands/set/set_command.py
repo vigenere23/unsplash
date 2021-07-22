@@ -2,14 +2,16 @@ from abc import ABC, abstractmethod
 from pathlib import Path
 from os import path, listdir
 from shutil import rmtree
+from config.config_repository import ConfigRepository
 
 from src.client.unsplash_request import UnsplashRequestBuilder
 from src.commands.set.set_command_arguments import SetCommandArguments
 from src.images import ImageFetcher, WebImage
 
 class SetCommand(ABC):
-    def __init__(self, current_wallpaper_dir: str):
+    def __init__(self, current_wallpaper_dir: str, config_repo: ConfigRepository):
         self.__current_wallpaper_dir = current_wallpaper_dir
+        self.__config = config_repo.get()
 
     def execute(self, args: SetCommandArguments):
         url = self.__get_url(args)
@@ -30,9 +32,8 @@ class SetCommand(ABC):
     def __get_url(self, args: SetCommandArguments):
         builder = UnsplashRequestBuilder()
 
-        # TODO add 'or config.X' in arguments
-        builder.keyword_from(args.keywords or ['mountains'])
-        builder.resolution(args.resolution or '1440p')
+        builder.keyword_from(args.keywords or [self.__config.keyword])
+        builder.resolution(args.resolution or self.__config.resolution)
 
         url = builder.build()
 
