@@ -1,3 +1,5 @@
+#!/bin/bash
+
 REPO_ZIP_URL="https://github.com/vigenere23/unsplash/archive/refs/heads/main.zip"
 TEMP_REPO_ZIP_FILE="/tmp/unsplash-$(uuidgen).zip"
 INSTALLATION_DIR="$HOME/.unsplash"

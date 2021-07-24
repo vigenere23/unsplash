@@ -9,7 +9,6 @@ from src.commands.set.set_command import SetCommand
 
 class SetCommandMacOS(SetCommand):
     def __init__(self, config_repo: ConfigRepository):
-        # TODO inject
         super().__init__(path.join(Path.home(), 'Pictures', 'unsplash', 'current'), config_repo)
 
     def _set_new_wallpaper(self, image_path: str):

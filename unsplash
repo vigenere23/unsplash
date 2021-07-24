@@ -1,93 +1,89 @@
-#!/bin/bash
+#!./.venv/bin/python
 
-# url="https://source.unsplash.com/featured/2560x1440/?$1"
-# echo "Downloading from $url"
-# curl -L -o "$HOME/Pictures/wallpapers/unsplash/$(uuidgen).jpg" $url
+from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter, Namespace, _SubParsersAction
 
-BASE_FOLDER="$(dirname $(readlink -f $0))"
-CURRENT_WALLPAPER_FOLDER="$BASE_FOLDER/current"
-SAVED_WALLPAPERS_FOLDER="$BASE_FOLDER/saved"
-BASE_URL="https://source.unsplash.com/featured/2560x1440/?"
+from src.commands.config.config_command import ConfigCommand
+from src.commands.config.config_command_arguments import ConfigCommandArguments
+from src.commands.config.config_repository_json import ConfigRepositoryJson
+from src.commands.set.set_command_arguments import SetCommandArguments
+from src.commands.save.save_command import SaveCommand
+from src.commands.set.set_command_provider import SetCommandProvider
 
-function show_help {
-    echo "
-Unsplash CLI help
 
-Usage: unsplash [COMMAND]
+def register_set_command(main_parser: _SubParsersAction) -> ArgumentParser:
+    parser: ArgumentParser = main_parser.add_parser('set', help='Change the wallpaper')
 
-    Commands:
-    ---------
-    set <topics> : change the current wallpaper to a random one from <topics>
+    parser.add_argument('-r', '--resolution', type=str, help='Override default resolution')
+    parser.add_argument('-k', '--keywords', type=str, nargs='*', help="Override kwywords selection")
 
-    save : save the current wallpaper to a 'saved' directory
+    return parser
 
-    help : show this message
 
-    uninstall : uninstall this program
-    "
-}
+def register_save_command(main_parser: _SubParsersAction) -> ArgumentParser:
+    parser: ArgumentParser = main_parser.add_parser('save', help='Save the current wallpaper')
 
-function save_current_wallpaper {
-    if [ -z "$(ls -A $CURRENT_WALLPAPER_FOLDER)" ]; then
-        echo "No wallpaper currently set. Please set one using the 'set' command."
-        exit 1
-    fi
+    return parser
 
-    cp "$CURRENT_WALLPAPER_FOLDER"/* "$SAVED_WALLPAPERS_FOLDER"
-}
 
-function set_new_wallpaper {
-    topics=$1
+def register_config_command(main_parser: _SubParsersAction) -> ArgumentParser:
+    parser: ArgumentParser = main_parser.add_parser('config', help='Get or set the current config')
+    parser.add_argument('param', nargs='?', default=None, help='Config param to get or set (None = get all config)')
+    parser.add_argument('--value', type=str, nargs='*', help='Value to set to the config parameter')
 
-    if [[ ! $topics ]]; then
-        echo "Missing <topics>"
-        show_help
-        exit 1
-    fi
+    return parser
 
-    url="$BASE_URL$1"
-    filename="$(uuidgen).jpg"
-    temp_location="/tmp/$filename"
-    final_location="$CURRENT_WALLPAPER_FOLDER/$filename"
 
-    echo "Downloading new random wallpaper from $url"
-    curl -L -s -o "$temp_location" "$url"
+def register_postinstall_command(main_parser: _SubParsersAction) -> ArgumentParser:
+    parser: ArgumentParser = main_parser.add_parser('postinstall', help='Run postinstallation steps')
+    
+    return parser
 
-    echo "Setting new random wallpaper"
 
-    if [ ! -z "$(ls -A $CURRENT_WALLPAPER_FOLDER)" ]; then
-        rm "$CURRENT_WALLPAPER_FOLDER"/*
-    fi
+def parse_args() -> Namespace:
+    parser = ArgumentParser(formatter_class=ArgumentDefaultsHelpFormatter)
+    command_parsers = parser.add_subparsers(dest='command')
 
-    mv "$temp_location" "$final_location"
+    register_set_command(command_parsers)
+    register_save_command(command_parsers)
+    register_config_command(command_parsers)
 
-    gsettings set org.gnome.desktop.background picture-uri "file://$final_location"
-    gsettings set org.gnome.desktop.screensaver picture-uri "file://$final_location"
-}
+    return parser.parse_args()
 
-function uninstall {
-    "$BASE_FOLDER/uninstall.sh"
-}
 
-function choose_command {
-    case $1 in
-    "set")
-        set_new_wallpaper $2
-        ;;
-    "save")
-        save_current_wallpaper
-        ;;
-    "uninstall")
-        uninstall
-        ;;
-    "help")
-        show_help
-        ;;
-    *)
-        show_help
-        exit 1
-        ;;
-    esac
-}
+def run_command(args: Namespace) -> None:
+    if args.command == 'set':
+        command = SetCommandProvider(ConfigRepositoryJson()).provide()
+        command.execute(SetCommandArguments(
+            resolution=args.resolution,
+            keywords=args.keywords
+        ))
 
-choose_command $1 $2
+    if args.command == 'save':
+        command = SaveCommand()
+        command.execute()
+
+    if args.command == 'config':
+        command = ConfigCommand(ConfigRepositoryJson())
+
+        if args.value:
+            command_args = ConfigCommandArguments(
+                set=True,
+                resolution=args.value[0] if args.param == 'resolution' else None,
+                keywords=args.value if args.param == 'keywords' else None
+            )
+        else:
+            command_args = ConfigCommandArguments(set=False)
+
+        command.execute(command_args)
+
+    if args.command == 'postinstall':
+        print('POSTINSTALL')
+
+
+def main():
+    args = parse_args()
+    run_command(args)
+
+
+if __name__ == '__main__':
+    main()
