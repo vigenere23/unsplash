@@ -2,6 +2,7 @@
 
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter, Namespace, _SubParsersAction
 
+from src.commands.uninstall.uninstall_command_provider import UninstallCommandProvider
 from src.commands.config.config_command import ConfigCommand
 from src.commands.config.config_command_arguments import ConfigCommandArguments
 from src.commands.config.config_repository_json import ConfigRepositoryJson
@@ -33,6 +34,12 @@ def register_config_command(main_parser: _SubParsersAction) -> ArgumentParser:
     return parser
 
 
+def register_uninstall_command(main_parser: _SubParsersAction) -> ArgumentParser:
+    parser: ArgumentParser = main_parser.add_parser('uninstall', help='Uninstall this program')
+
+    return parser
+
+
 def parse_args() -> Namespace:
     parser = ArgumentParser(formatter_class=ArgumentDefaultsHelpFormatter)
     command_parsers = parser.add_subparsers(dest='command')
@@ -40,6 +47,7 @@ def parse_args() -> Namespace:
     register_set_command(command_parsers)
     register_save_command(command_parsers)
     register_config_command(command_parsers)
+    register_uninstall_command(command_parsers)
 
     return parser.parse_args()
 
@@ -69,6 +77,10 @@ def run_command(args: Namespace) -> None:
             command_args = ConfigCommandArguments(set=False)
 
         command.execute(command_args)
+
+    if args.command == 'uninstall':
+        command = UninstallCommandProvider().provide()
+        command.execute()
 
 
 def main():
