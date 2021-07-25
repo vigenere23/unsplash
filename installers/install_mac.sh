@@ -8,14 +8,21 @@ function step {
     printf "\n $bold$1$normal\n"
 }
 
+timestamp="$(date +%s)"
 REPO_ZIP_URL="https://github.com/vigenere23/unsplash/archive/refs/heads/v2.zip"
-TEMP_REPO_ZIP_FILE="/tmp/unsplash-$(date +%s).zip"
-INSTALLATION_DIR="$HOME/.unsplash2"
+TEMP_REPO_ZIP_FILE="/tmp/unsplash-$timestamp.zip"
+TEMP_REPO_DIR="/tmp/unsplash-$timestamp"
+INSTALLATION_DIR="$HOME/.unsplash"
+
+if [ -d $INSTALLATION_DIR ]; then
+    rm -rf $INSTALLATION_DIR
+fi
 
 step "⬇️ Downloading content..."
 
 curl -L -o $TEMP_REPO_ZIP_FILE $REPO_ZIP_URL
-unzip -o -j $TEMP_REPO_ZIP_FILE -d $INSTALLATION_DIR
+unzip -o $TEMP_REPO_ZIP_FILE -d $TEMP_REPO_DIR
+mv -f -v $TEMP_REPO_DIR/* $INSTALLATION_DIR
 
 step "🐍 Setuping Python environment..."
 
