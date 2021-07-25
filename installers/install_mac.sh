@@ -26,15 +26,15 @@ mv -f -v $TEMP_REPO_DIR/* $INSTALLATION_DIR
 
 step "🐍 Setuping Python environment..."
 
-python3 -m venv .venv
-source .venv/bin/activate && \
+python3 -m venv "$INSTALLATION_DIR"/.venv
+source "$INSTALLATION_DIR"/.venv/bin/activate && \
 pip install --upgrade pip && \
 pip install -r "$INSTALLATION_DIR"/requirements.txt
 
 step "⚙️ Creating config and executables..."
 
-if [ ! -e "$HOME"/.local/bin/unsplash ]; then
-    ln -f -s "$INSTALLATION_DIR/unsplash" /usr/local/bin/unsplash
+if [ ! -e /usr/local/bin/unsplash ]; then
+    ln -f -s "$INSTALLATION_DIR"/unsplash /usr/local/bin/unsplash
 fi
 
 step "✨ DONE!\n"
