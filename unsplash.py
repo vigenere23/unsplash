@@ -1,6 +1,5 @@
-#!./.venv/bin/python
-
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter, Namespace, _SubParsersAction
+from typing import Tuple
 
 from src.commands.uninstall.uninstall_command_provider import UninstallCommandProvider
 from src.commands.config.config_command import ConfigCommand
@@ -40,7 +39,7 @@ def register_uninstall_command(main_parser: _SubParsersAction) -> ArgumentParser
     return parser
 
 
-def parse_args() -> Namespace:
+def parse_args() -> Tuple[ArgumentParser, Namespace]:
     parser = ArgumentParser(formatter_class=ArgumentDefaultsHelpFormatter)
     command_parsers = parser.add_subparsers(dest='command')
 
@@ -49,10 +48,12 @@ def parse_args() -> Namespace:
     register_config_command(command_parsers)
     register_uninstall_command(command_parsers)
 
-    return parser.parse_args()
+    return parser, parser.parse_args()
 
 
-def run_command(args: Namespace) -> None:
+def main():
+    parser, args = parse_args()
+
     if args.command == 'set':
         command = SetCommandProvider(ConfigRepositoryJson()).provide()
         command.execute(SetCommandArguments(
@@ -60,11 +61,11 @@ def run_command(args: Namespace) -> None:
             keywords=args.keywords
         ))
 
-    if args.command == 'save':
+    elif args.command == 'save':
         command = SaveCommand()
         command.execute()
 
-    if args.command == 'config':
+    elif args.command == 'config':
         command = ConfigCommand(ConfigRepositoryJson())
 
         if args.value:
@@ -78,14 +79,12 @@ def run_command(args: Namespace) -> None:
 
         command.execute(command_args)
 
-    if args.command == 'uninstall':
+    elif args.command == 'uninstall':
         command = UninstallCommandProvider().provide()
         command.execute()
 
-
-def main():
-    args = parse_args()
-    run_command(args)
+    else:
+        parser.print_help()
 
 
 if __name__ == '__main__':
