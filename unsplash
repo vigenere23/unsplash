@@ -33,12 +33,6 @@ def register_config_command(main_parser: _SubParsersAction) -> ArgumentParser:
     return parser
 
 
-def register_postinstall_command(main_parser: _SubParsersAction) -> ArgumentParser:
-    parser: ArgumentParser = main_parser.add_parser('postinstall', help='Run postinstallation steps')
-    
-    return parser
-
-
 def parse_args() -> Namespace:
     parser = ArgumentParser(formatter_class=ArgumentDefaultsHelpFormatter)
     command_parsers = parser.add_subparsers(dest='command')
@@ -75,9 +69,6 @@ def run_command(args: Namespace) -> None:
             command_args = ConfigCommandArguments(set=False)
 
         command.execute(command_args)
-
-    if args.command == 'postinstall':
-        print('POSTINSTALL')
 
 
 def main():

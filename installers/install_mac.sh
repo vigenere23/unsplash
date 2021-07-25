@@ -31,6 +31,12 @@ source .venv/bin/activate && \
 pip install --upgrade pip && \
 pip install -r "$INSTALLATION_DIR"/requirements.txt
 
-step "⚙️ Running post installation..."
+step "⚙️ Creating config and executables..."
 
-"$INSTALLATION_DIR"/unsplash postinstall
+if [ ! -e "$HOME"/.local/bin/unsplash ]; then
+    ln -f -s "$INSTALLATION_DIR/unsplash" /usr/local/bin/unsplash
+fi
+
+step "✨ DONE!\n"
+
+unsplash --help
