@@ -1,6 +1,6 @@
-INSTALLATION_FOLDER="$(dirname $(readlink -f $0))"
+INSTALLATION_DIR="$HOME/.unsplash"
 
-rm "$HOME"/.local/bin/unsplash
-rm "$HOME"/.config/autostart/unsplash.desktop
+rm "$HOME/.local/bin/unsplash"
+rm "$HOME/.config/autostart/unsplash.desktop"
 
-rm -r "$INSTALLATION_FOLDER"
+rm -r "$INSTALLATION_DIR"
