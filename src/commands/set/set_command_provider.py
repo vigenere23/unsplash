@@ -1,6 +1,6 @@
-from src.commands.config.config_repository import ConfigRepository
-from src.commands.set.set_command import SetCommand
-from src.commands.set.set_command_macos import SetCommandMacOS
+from commands.config.config_repository import ConfigRepository
+from commands.set.set_command import SetCommand
+from commands.set.set_command_macos import SetCommandMacOS
 
 
 class SetCommandProvider:

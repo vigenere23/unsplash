@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from src.commands.config.config import Config
+from commands.config.config import Config
 
 class ConfigRepository(ABC):
     @abstractmethod

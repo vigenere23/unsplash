@@ -1,13 +1,13 @@
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter, Namespace, _SubParsersAction
 from typing import Tuple
 
-from src.commands.uninstall.uninstall_command_provider import UninstallCommandProvider
-from src.commands.config.config_command import ConfigCommand
-from src.commands.config.config_command_arguments import ConfigCommandArguments
-from src.commands.config.config_repository_json import ConfigRepositoryJson
-from src.commands.set.set_command_arguments import SetCommandArguments
-from src.commands.save.save_command import SaveCommand
-from src.commands.set.set_command_provider import SetCommandProvider
+from commands.uninstall.uninstall_command_provider import UninstallCommandProvider
+from commands.config.config_command import ConfigCommand
+from commands.config.config_command_arguments import ConfigCommandArguments
+from commands.config.config_repository_json import ConfigRepositoryJson
+from commands.set.set_command_arguments import SetCommandArguments
+from commands.save.save_command import SaveCommand
+from commands.set.set_command_provider import SetCommandProvider
 
 
 def register_set_command(main_parser: _SubParsersAction) -> ArgumentParser:

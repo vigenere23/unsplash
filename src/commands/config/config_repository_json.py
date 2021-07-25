@@ -2,8 +2,8 @@ import json
 from dataclasses import asdict
 from os import path
 
-from src.commands.config.config import Config
-from src.commands.config.config_repository import ConfigRepository
+from commands.config.config import Config
+from commands.config.config_repository import ConfigRepository
 
 
 class ConfigRepositoryJson(ConfigRepository):

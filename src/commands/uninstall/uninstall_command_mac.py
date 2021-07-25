@@ -2,7 +2,7 @@ import subprocess
 from os import path
 from pathlib import Path
 
-from src.commands.uninstall.uninstall_command import UninstallCommand
+from commands.uninstall.uninstall_command import UninstallCommand
 
 
 class UninstallCommandMac(UninstallCommand):

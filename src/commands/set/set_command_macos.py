@@ -3,8 +3,8 @@ from os import path
 from pathlib import Path
 from appscript import app, mactypes
 
-from src.commands.config.config_repository import ConfigRepository
-from src.commands.set.set_command import SetCommand
+from commands.config.config_repository import ConfigRepository
+from commands.set.set_command import SetCommand
 
 
 class SetCommandMacOS(SetCommand):

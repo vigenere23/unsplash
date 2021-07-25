@@ -35,6 +35,11 @@ step "⚙️ Creating config and executables..."
 
 ln -f -s "$INSTALLATION_DIR/bin/unsplash_mac.sh" /usr/local/bin/unsplash
 
-step "✨ DONE!\n"
+step "✨ DONE!"
 
-unsplash --help
+printf "\nBefore starting:\n"
+echo "  1. Adjust your resolution with 'unsplash config resolution --value <value>'"
+echo "  2. Set your random keywords selection with with 'unsplash config keywords --value <value>'"
+echo "  3. Get your first wallpaper with 'unsplash set'"
+echo "  4. Like it? Save it with 'unsplash save'!"
+echo "  5. Display help with 'unsplash --help'"

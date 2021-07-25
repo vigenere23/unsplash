@@ -3,10 +3,10 @@ from pathlib import Path
 from os import path
 from shutil import rmtree
 
-from src.client.unsplash_request import UnsplashRequestBuilder
-from src.commands.config.config_repository import ConfigRepository
-from src.commands.set.set_command_arguments import SetCommandArguments
-from src.images import ImageFetcher, WebImage
+from client.unsplash_request import UnsplashRequestBuilder
+from commands.config.config_repository import ConfigRepository
+from commands.set.set_command_arguments import SetCommandArguments
+from images import ImageFetcher, WebImage
 
 class SetCommand(ABC):
     def __init__(self, current_wallpaper_dir: str, config_repo: ConfigRepository):

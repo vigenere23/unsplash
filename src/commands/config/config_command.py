@@ -1,5 +1,5 @@
-from src.commands.config.config_command_arguments import ConfigCommandArguments
-from src.commands.config.config_repository import ConfigRepository
+from commands.config.config_command_arguments import ConfigCommandArguments
+from commands.config.config_repository import ConfigRepository
 
 
 class ConfigCommand:

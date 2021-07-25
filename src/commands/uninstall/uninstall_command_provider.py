@@ -1,5 +1,5 @@
-from src.commands.uninstall.uninstall_command_mac import UninstallCommandMac
-from src.commands.uninstall.uninstall_command import UninstallCommand
+from commands.uninstall.uninstall_command_mac import UninstallCommandMac
+from commands.uninstall.uninstall_command import UninstallCommand
 
 
 class UninstallCommandProvider:
