@@ -39,12 +39,11 @@ step "⚙️  Configuring..."
 
 printf "Screen resolution (2880x1800): "
 read screen_res
+unsplash config set resolution $screen_res
 
 printf "Keywords (mountains): "
 read keywords
-
-unsplash config resolution --value $screen_res
-unsplash config keywords --value $keywords
+unsplash config set keywords $keywords
 
 step "🖼️  Setting first wallpaper..."
 

@@ -8,12 +8,12 @@ class ConfigCommand:
         self.__config_repo = config_repo
         self.__resolution_factory = resolution_factory
 
-    def execute(self, args: ConfigCommandArguments):
+    def get(self, param: str):
         config = self.__config_repo.get()
+        print(config[param])
 
-        if not args.set:
-            print(config)
-            return
+    def set(self, args: ConfigCommandArguments):
+        config = self.__config_repo.get()
 
         if args.resolution:
             config.resolution = self.__resolution_factory.create(args.resolution).print()

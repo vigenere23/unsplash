@@ -28,8 +28,9 @@ def register_save_command(main_parser: _SubParsersAction) -> ArgumentParser:
 
 def register_config_command(main_parser: _SubParsersAction) -> ArgumentParser:
     parser: ArgumentParser = main_parser.add_parser('config', help='Get or set the current config')
-    parser.add_argument('param', nargs='?', default=None, help='Config param to get or set (None = get all config)')
-    parser.add_argument('--value', type=str, nargs='*', help='Value to set to the config parameter')
+    parser.add_argument('subcommand', choices=['get', 'set'])
+    parser.add_argument('param', choices=['resolution', 'keywords'], help='Config param to get or set')
+    parser.add_argument('value', nargs='*', help='Value to set to the config parameter')
 
     return parser
 
@@ -69,16 +70,15 @@ def main():
     elif args.command == 'config':
         command = ConfigCommand(ConfigRepositoryJson(), ResolutionFactory())
 
-        if args.value:
+        if args.subcommand == 'get':
+            command.get(args.param)
+
+        if args.subcommand == 'set':
             command_args = ConfigCommandArguments(
-                set=True,
-                resolution=args.value[0] if args.param == 'resolution' else None,
+                resolution=args.value[0] if args.param == 'resolution' and len(args.value) > 0 else None,
                 keywords=args.value if args.param == 'keywords' else None
             )
-        else:
-            command_args = ConfigCommandArguments(set=False)
-
-        command.execute(command_args)
+            command.set(command_args)
 
     elif args.command == 'uninstall':
         command = UninstallCommandProvider().provide()

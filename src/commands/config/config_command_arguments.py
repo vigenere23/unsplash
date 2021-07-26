@@ -6,4 +6,3 @@ from typing import List, Optional
 class ConfigCommandArguments:
     resolution: Optional[str] = None
     keywords: Optional[List[str]] = None
-    set: Optional[bool] = False
