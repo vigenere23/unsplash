@@ -50,4 +50,4 @@ step "🖼️  Setting first wallpaper..."
 
 unsplash set
 
-step "🎉  DONE! Use 'unsplash --help' for more commands."
+step "🎉 DONE! Use 'unsplash --help' for more commands."
