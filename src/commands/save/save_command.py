@@ -5,7 +5,6 @@ from shutil import copyfile
 
 class SaveCommand:
     def __init__(self):
-        # TODO inject
         self.__current_wallpaper_dir = path.join(Path.home(), 'Pictures', 'unsplash', 'current')
         self.__saved_wallpapers_dir = path.join(Path.home(), 'Pictures', 'unsplash', 'saved')
 
@@ -18,4 +17,5 @@ class SaveCommand:
         for filename in current_wallpapers:
             current_file_path = path.join(self.__current_wallpaper_dir, filename)
             saved_file_path = path.join(self.__saved_wallpapers_dir, filename)
+            print(f"   ➜ Saving wallpaper to '{saved_file_path}'")
             copyfile(current_file_path, saved_file_path)

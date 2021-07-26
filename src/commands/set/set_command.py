@@ -20,10 +20,8 @@ class SetCommand(ABC):
         self.__recreate_current_wallpaper_directory()
         image_path = self.__save_new_wallpaper(image)
 
-        print('Setting new desktop wallpaper (this might cause lag)...')
+        print('   ➜ Setting new desktop wallpaper (this might cause lag)')
         self._set_new_wallpaper(image_path)
-
-        print('DONE!')
 
     @abstractmethod
     def _set_new_wallpaper(self, image_path: str):
@@ -42,7 +40,7 @@ class SetCommand(ABC):
     def __fetch_image(self, url: str):
         fetcher = ImageFetcher(url)
         
-        print(f"Downloading new wallpaper from '{url}'...")
+        print(f"   ➜ Downloading new wallpaper from '{url}'")
 
         return fetcher.fetch()
 
@@ -56,7 +54,7 @@ class SetCommand(ABC):
         file_path = path.join(self.__current_wallpaper_dir, image.filename)
 
         with open(file_path, 'wb') as f:
-            print(f"Saving new wallpaper to '{file_path}'...")
+            print(f"   ➜ Saving new wallpaper to '{file_path}'")
             f.write(image.data)
 
         return file_path
