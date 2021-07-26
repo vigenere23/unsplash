@@ -3,7 +3,7 @@ from platform import system
 from commands.config.config_repository import ConfigRepository
 from commands.set.set_command import SetCommand
 from commands.set.set_command_macos import SetCommandMacOS
-from commands.set.set_command_macos import SetCommandLinux
+from commands.set.set_command_linux import SetCommandLinux
 
 
 class SetCommandProvider:

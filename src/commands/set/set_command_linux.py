@@ -1,7 +1,6 @@
 import subprocess
 from os import path
 from pathlib import Path
-from appscript import app, mactypes
 
 from commands.config.config_repository import ConfigRepository
 from commands.set.set_command import SetCommand

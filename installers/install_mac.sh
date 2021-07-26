@@ -29,7 +29,7 @@ step "🐍 Setuping Python environment..."
 python3 -m venv "$INSTALLATION_DIR/.venv"
 source "$INSTALLATION_DIR/.venv/bin/activate" && \
 pip install --upgrade pip && \
-pip install -r "$INSTALLATION_DIR/requirements.mac.txt"
+pip install -r "$INSTALLATION_DIR/requirements.txt"
 
 step "⚙️ Creating config and executables..."
 

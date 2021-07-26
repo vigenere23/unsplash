@@ -1,7 +1,6 @@
 import subprocess
 from os import path
 from pathlib import Path
-from appscript import app, mactypes
 
 from commands.config.config_repository import ConfigRepository
 from commands.set.set_command import SetCommand
@@ -13,4 +12,5 @@ class SetCommandMacOS(SetCommand):
 
     def _set_new_wallpaper(self, image_path: str):
         app('Finder').desktop_picture.set(mactypes.File(image_path))
+        subprocess.call(['osascript', '-e', f'tell application "Finder" to set desktop picture to POSIX file "{image_path}"'])
         subprocess.call(['/usr/bin/killall', 'Dock'])
