@@ -5,7 +5,7 @@ set -e # Exit on error
 function step {
     bold=$(tput bold)
     normal=$(tput sgr0)
-    printf "\n $bold$1$normal\n"
+    printf "\n $bold$1$normal\n\n"
 }
 
 timestamp="$(date +%s)"
@@ -31,13 +31,13 @@ source "$INSTALLATION_DIR/.venv/bin/activate" && \
 pip install --upgrade pip && \
 pip install -r "$INSTALLATION_DIR/requirements.txt"
 
-step "⚙️ Creating executables..."
+step "🛠 Creating executables..."
 
-ln -f -s "$INSTALLATION_DIR/bin/unsplash_mac.sh" /usr/local/bin/unsplash
+ln -f -s -v "$INSTALLATION_DIR/bin/unsplash_mac.sh" /usr/local/bin/unsplash
 
-step "Configuring..."
+step "⚙️ Configuring..."
 
-printf "\nScreen resolution (2880x1800): "
+printf "Screen resolution (2880x1800): "
 read screen_res
 
 printf "Keywords (mountains): "
@@ -46,8 +46,8 @@ read keywords
 unsplash config resolution --value $screen_res
 unsplash config keywords --value $keywords
 
-step "✨ Setting first wallpaper..."
+step "🖼️ Setting first wallpaper..."
 
 unsplash set
 
-step "✨ DONE!"
+step "🎉 DONE! Use 'unsplash --help' for more commands."

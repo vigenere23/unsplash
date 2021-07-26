@@ -1,6 +1,7 @@
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter, Namespace, _SubParsersAction
 from typing import Tuple
 
+from client.resolution import ResolutionFactory
 from commands.uninstall.uninstall_command_provider import UninstallCommandProvider
 from commands.config.config_command import ConfigCommand
 from commands.config.config_command_arguments import ConfigCommandArguments
@@ -66,7 +67,7 @@ def main():
         command.execute()
 
     elif args.command == 'config':
-        command = ConfigCommand(ConfigRepositoryJson())
+        command = ConfigCommand(ConfigRepositoryJson(), ResolutionFactory())
 
         if args.value:
             command_args = ConfigCommandArguments(
