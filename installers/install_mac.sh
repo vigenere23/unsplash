@@ -31,15 +31,23 @@ source "$INSTALLATION_DIR/.venv/bin/activate" && \
 pip install --upgrade pip && \
 pip install -r "$INSTALLATION_DIR/requirements.txt"
 
-step "⚙️ Creating config and executables..."
+step "⚙️ Creating executables..."
 
 ln -f -s "$INSTALLATION_DIR/bin/unsplash_mac.sh" /usr/local/bin/unsplash
 
-step "✨ DONE!"
+step "Configuring..."
 
-printf "\nBefore starting:\n"
-echo "  1. Adjust your resolution with 'unsplash config resolution --value <value>'"
-echo "  2. Set your random keywords selection with with 'unsplash config keywords --value <value>'"
-echo "  3. Get your first wallpaper with 'unsplash set'"
-echo "  4. Like it? Save it with 'unsplash save'!"
-echo "  5. Display help with 'unsplash --help'"
+printf "\nScreen resolution (2880x1800): "
+read screen_res
+
+printf "Keywords (mountains): "
+read keywords
+
+unsplash config resolution --value $screen_res
+unsplash config keywords --value $keywords
+
+step "✨ Setting first wallpaper..."
+
+unsplash set
+
+step "✨ DONE!"

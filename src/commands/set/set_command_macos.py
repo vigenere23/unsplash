@@ -11,6 +11,5 @@ class SetCommandMacOS(SetCommand):
         super().__init__(path.join(Path.home(), 'Pictures', 'unsplash', 'current'), config_repo)
 
     def _set_new_wallpaper(self, image_path: str):
-        app('Finder').desktop_picture.set(mactypes.File(image_path))
         subprocess.call(['osascript', '-e', f'tell application "Finder" to set desktop picture to POSIX file "{image_path}"'])
         subprocess.call(['/usr/bin/killall', 'Dock'])

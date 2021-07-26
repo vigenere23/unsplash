@@ -31,10 +31,21 @@ source "$INSTALLATION_DIR/.venv/bin/activate" && \
 pip install --upgrade pip && \
 pip install -r "$INSTALLATION_DIR/requirements.txt"
 
-step "⚙️ Creating config and executables..."
+step "⚙️ Creating executables..."
 
 ln -f -s "$INSTALLATION_DIR/bin/unsplash_linux.sh" "$HOME/.local/bin/unsplash"
 ln -f -s "$INSTALLATION_DIR/installers/unsplash.desktop" "$HOME"/.config/autostart
+
+step "Configuring..."
+
+printf "Screen resolution: "
+read screen_res
+
+printf "Keywords: "
+read keywords
+
+unsplash config resolution --value $screen_res
+unsplash config keywords --value $keywords
 
 step "✨ DONE!"
 
