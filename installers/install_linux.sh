@@ -9,7 +9,7 @@ function step {
 }
 
 timestamp="$(date +%s)"
-REPO_ZIP_URL="https://github.com/vigenere23/unsplash/archive/refs/heads/linux.zip"
+REPO_ZIP_URL="https://github.com/vigenere23/unsplash/archive/refs/heads/main.zip"
 TEMP_REPO_ZIP_FILE="/tmp/unsplash-$timestamp.zip"
 TEMP_REPO_DIR="/tmp/unsplash-$timestamp"
 INSTALLATION_DIR="$HOME/.unsplash"
