@@ -34,7 +34,7 @@ pip install -r "$INSTALLATION_DIR/requirements.txt"
 step "🛠 Creating executables..."
 
 ln -f -s -v "$INSTALLATION_DIR/bin/unsplash_linux.sh" "$HOME/.local/bin/unsplash"
-ln -f -s -v "$INSTALLATION_DIR/installers/unsplash.desktop" "$HOME"/.config/autostart
+ln -f -s -v "$INSTALLATION_DIR/resources/unsplash.desktop" "$HOME"/.config/autostart/
 
 step "⚙️ Configuring..."
 
