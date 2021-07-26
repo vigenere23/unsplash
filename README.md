@@ -20,24 +20,6 @@ bash <(curl -L -o- https://raw.githubusercontent.com/vigenere23/unsplash/main/in
 
 ## Usage
 
-### Change the wallpaper
-
 ```sh
-unsplash set <keywords>
-```
-
-will set the wallpaper with a random image using the <keywords> keywords.
-
-### Save the current wallpaper for later
-
-```sh
-unsplash save
-```
-
-will save the current wallpaper to `~/.unsplash/saved` for your future usage.
-
-### Uninstall
-
-```sh
-unsplash uninstall
+unsplash --help
 ```
