@@ -1,6 +1,6 @@
 # Unsplash Bash CLI
 
-Small Unsplash CLI for changing your desktop background on Ubuntu with Gnome.
+Small CLI for setting your desktop wallpaper with amazing pictures from Unsplash.
 
 ## Installation
 
