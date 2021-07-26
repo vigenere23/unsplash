@@ -41,9 +41,3 @@ will save the current wallpaper to `~/.unsplash/saved` for your future usage.
 ```sh
 unsplash uninstall
 ```
-
-## Future
-
-- Create a Python wrapper for better redability and flexibility
-- Support multiple OS (at least Mac)
-- Support for configuration (screen-size, etc.)
