@@ -2,6 +2,7 @@ from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter, Namespace, _
 from typing import Tuple
 
 from client.resolution import ResolutionFactory
+from commands.upgrade.upgrade_command_provider import UpgradeCommandProvider
 from commands.uninstall.uninstall_command_provider import UninstallCommandProvider
 from commands.config.config_command import ConfigCommand
 from commands.config.config_command_arguments import ConfigCommandArguments
@@ -41,14 +42,23 @@ def register_uninstall_command(main_parser: _SubParsersAction) -> ArgumentParser
     return parser
 
 
+def register_upgrade_command(main_parser: _SubParsersAction) -> ArgumentParser:
+    parser: ArgumentParser = main_parser.add_parser('upgrade', help='Upgrade/reinstall this program with latest version')
+
+    return parser
+
+
 def parse_args() -> Tuple[ArgumentParser, Namespace]:
-    parser = ArgumentParser(formatter_class=ArgumentDefaultsHelpFormatter)
+    parser = ArgumentParser(
+        formatter_class=ArgumentDefaultsHelpFormatter,
+        prog='unsplash')
     command_parsers = parser.add_subparsers(dest='command')
 
     register_set_command(command_parsers)
     register_save_command(command_parsers)
     register_config_command(command_parsers)
     register_uninstall_command(command_parsers)
+    register_upgrade_command(command_parsers)
 
     return parser, parser.parse_args()
 
@@ -82,6 +92,10 @@ def main():
 
     elif args.command == 'uninstall':
         command = UninstallCommandProvider().provide()
+        command.execute()
+
+    elif args.command == 'upgrade':
+        command = UpgradeCommandProvider().provide()
         command.execute()
 
     else:
