@@ -8,11 +8,18 @@ function step {
     printf "\n $bold$1$normal\n\n"
 }
 
+function is_agent_running {
+    launch_agent_running=$(sudo launchctl list | grep $1)
+    test -n "$launch_agent_running"
+}
+
 timestamp="$(date +%s)"
 REPO_ZIP_URL="https://github.com/vigenere23/unsplash/archive/refs/heads/main.zip"
 TEMP_REPO_ZIP_FILE="/tmp/unsplash-$timestamp.zip"
 TEMP_REPO_DIR="/tmp/unsplash-$timestamp"
 INSTALLATION_DIR="$HOME/.unsplash"
+LAUNCH_AGENT_NAME="ca.vigenere23.unsplash"
+LAUNCH_AGENT_PATH="$HOME/Library/LaunchAgents/$LAUNCH_AGENT_NAME.plist"
 
 if [ -d $INSTALLATION_DIR ]; then
     rm -rf $INSTALLATION_DIR
@@ -46,8 +53,22 @@ read keywords
 unsplash config set resolution $screen_res
 unsplash config set keywords $keywords
 
-step "🖼️  Setting first wallpaper..."
+cat "$INSTALLATION_DIR/resources/ca.vigenere23.unsplash.plist.template" | envsubst > "$INSTALLATION_DIR/resources/ca.vigenere23.unsplash.plist"
+mv -f -v "$INSTALLATION_DIR/resources/ca.vigenere23.unsplash.plist" "$LAUNCH_AGENT_PATH"
+chmod 644 "$LAUNCH_AGENT_PATH"
+sudo chown root:wheel "$LAUNCH_AGENT_PATH"
 
-unsplash set
+set +e
+sudo launchctl unload -F "$LAUNCH_AGENT_PATH"
+sudo launchctl load "$LAUNCH_AGENT_PATH"
+set -e
+
+if ! is_agent_running $LAUNCH_AGENT_NAME
+then
+    echo "ERROR: Could not start the launchd agent."
+    exit 1
+else
+    echo "launchd agent started successfully"
+fi
 
 step "🎉 DONE! Use 'unsplash --help' for more commands."
