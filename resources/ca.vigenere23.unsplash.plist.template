@@ -11,6 +11,9 @@
         <string>$HOME</string>
     </dict>
 
+    <key>UserName</key>
+    <string>$USER</string>
+
     <key>ProgramArguments</key>
     <array>
         <string>/usr/local/bin/unsplash</string>
@@ -19,5 +22,11 @@
 
     <key>RunAtLoad</key>
     <true/>
+
+    <key>StandardErrorPath</key>
+    <string>$HOME/.unsplash/unsplash.log</string>
+
+    <key>StandardOutPath</key>
+    <string>$HOME/.unsplash/unsplash.log</string>
 </dict>
 </plist>

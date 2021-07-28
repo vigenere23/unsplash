@@ -2,6 +2,7 @@ from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter, Namespace, _
 from typing import Tuple
 
 from client.resolution import ResolutionFactory
+from commands.logs.logs_command import LogsCommand
 from commands.upgrade.upgrade_command_provider import UpgradeCommandProvider
 from commands.uninstall.uninstall_command_provider import UninstallCommandProvider
 from commands.config.config_command import ConfigCommand
@@ -48,6 +49,12 @@ def register_upgrade_command(main_parser: _SubParsersAction) -> ArgumentParser:
     return parser
 
 
+def register_logs_command(main_parser: _SubParsersAction) -> ArgumentParser:
+    parser: ArgumentParser = main_parser.add_parser('logs', help='Show program logs')
+
+    return parser
+
+
 def parse_args() -> Tuple[ArgumentParser, Namespace]:
     parser = ArgumentParser(
         formatter_class=ArgumentDefaultsHelpFormatter,
@@ -59,6 +66,7 @@ def parse_args() -> Tuple[ArgumentParser, Namespace]:
     register_config_command(command_parsers)
     register_uninstall_command(command_parsers)
     register_upgrade_command(command_parsers)
+    register_logs_command(command_parsers)
 
     return parser, parser.parse_args()
 
@@ -96,6 +104,10 @@ def main():
 
     elif args.command == 'upgrade':
         command = UpgradeCommandProvider().provide()
+        command.execute()
+
+    elif args.command == 'logs':
+        command = LogsCommand()
         command.execute()
 
     else:

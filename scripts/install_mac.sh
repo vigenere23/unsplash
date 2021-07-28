@@ -65,7 +65,7 @@ set -e
 
 if ! is_agent_running $LAUNCH_AGENT_NAME
 then
-    echo "ERROR: Could not start the launchd agent."
+    echo "ERROR: Could not start the launchd agent." >&2
     exit 1
 else
     echo "launchd agent started successfully"
