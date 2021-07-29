@@ -56,6 +56,9 @@ unsplash config set keywords $keywords
 cat "$INSTALLATION_DIR/resources/ca.vigenere23.unsplash.plist.template" | envsubst > "$INSTALLATION_DIR/resources/ca.vigenere23.unsplash.plist"
 mv -f -v "$INSTALLATION_DIR/resources/ca.vigenere23.unsplash.plist" "$LAUNCH_AGENT_PATH"
 chmod 644 "$LAUNCH_AGENT_PATH"
+
+printf "\nThis program needs 'root' privileges to install the sheduler (will change your wallpaper at every login).\n"
+
 sudo chown root:wheel "$LAUNCH_AGENT_PATH"
 
 set +e
