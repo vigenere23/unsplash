@@ -41,7 +41,7 @@ step "⚙️  Configuring..."
 printf "Screen resolution (2880x1800): "
 read screen_res
 
-printf "Keywords (mountains): "
+printf "Keywords (landscape): "
 read keywords
 
 unsplash config set resolution $screen_res
