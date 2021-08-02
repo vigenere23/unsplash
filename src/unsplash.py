@@ -15,7 +15,7 @@ from commands.set.set_command_provider import SetCommandProvider
 
 def register_set_command(main_parser: _SubParsersAction) -> ArgumentParser:
     parser: ArgumentParser = main_parser.add_parser('set', help='Change the wallpaper')
-
+    parser.add_argument('type', nargs='?', choices=['new', 'saved'])
     parser.add_argument('-r', '--resolution', type=str, help='Override default resolution')
     parser.add_argument('-k', '--keywords', type=str, nargs='*', help="Override kwywords selection")
 
@@ -31,7 +31,7 @@ def register_save_command(main_parser: _SubParsersAction) -> ArgumentParser:
 def register_config_command(main_parser: _SubParsersAction) -> ArgumentParser:
     parser: ArgumentParser = main_parser.add_parser('config', help='Get or set the current config')
     parser.add_argument('subcommand', choices=['get', 'set'])
-    parser.add_argument('param', choices=['resolution', 'keywords'], help='Config param to get or set')
+    parser.add_argument('param', choices=['resolution', 'keywords', 'type'], help='Config param to get or set')
     parser.add_argument('value', nargs='*', help='Value to set to the config parameter')
 
     return parser
@@ -77,6 +77,7 @@ def main():
     if args.command == 'set':
         command = SetCommandProvider(ConfigRepositoryJson()).provide()
         command.execute(SetCommandArguments(
+            type=args.type,
             resolution=args.resolution,
             keywords=args.keywords
         ))
@@ -94,7 +95,8 @@ def main():
         if args.subcommand == 'set':
             command_args = ConfigCommandArguments(
                 resolution=args.value[0] if args.param == 'resolution' and len(args.value) > 0 else None,
-                keywords=args.value if args.param == 'keywords' else None
+                keywords=args.value if args.param == 'keywords' else None,
+                type=args.value[0] if args.param == 'type' else None
             )
             command.set(command_args)
 

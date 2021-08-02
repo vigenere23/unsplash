@@ -1,4 +1,5 @@
 from client.resolution import ResolutionFactory
+from commands.set.set_command_arguments import SetCommandType
 from commands.config.config_command_arguments import ConfigCommandArguments
 from commands.config.config_repository import ConfigRepository
 
@@ -17,6 +18,9 @@ class ConfigCommand:
 
         if args.resolution:
             config.resolution = self.__resolution_factory.create(args.resolution).print()
+
+        if args.type:
+            config.type = SetCommandType.parse(args.type).print()
 
         if args.keywords:
             if not isinstance(args.keywords, list) or len(args.keywords) == 0:

@@ -3,6 +3,7 @@ from typing import List
 
 @dataclass
 class Config:
+    type: str
     resolution: str
     keywords: List[str]
 
