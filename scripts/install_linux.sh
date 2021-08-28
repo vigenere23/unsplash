@@ -26,6 +26,7 @@ mv -f -v $TEMP_REPO_DIR/* $INSTALLATION_DIR
 
 step "🐍 Setuping Python environment..."
 
+sudo apt install python3.8-venv
 python3 -m venv "$INSTALLATION_DIR/.venv"
 source "$INSTALLATION_DIR/.venv/bin/activate" && \
 pip install --upgrade pip && \
