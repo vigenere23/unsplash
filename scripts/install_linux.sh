@@ -13,6 +13,7 @@ REPO_ZIP_URL="https://github.com/vigenere23/unsplash/archive/refs/heads/main.zip
 TEMP_REPO_ZIP_FILE="/tmp/unsplash-$timestamp.zip"
 TEMP_REPO_DIR="/tmp/unsplash-$timestamp"
 INSTALLATION_DIR="$HOME/.unsplash"
+BINARY_DIR="$HOME/.local/bin"
 
 if [ -d $INSTALLATION_DIR ]; then
     rm -rf $INSTALLATION_DIR
@@ -34,8 +35,14 @@ pip install -r "$INSTALLATION_DIR/requirements.txt"
 
 step "🛠  Creating executables..."
 
-ln -f -s -v "$INSTALLATION_DIR/bin/unsplash_linux.sh" "$HOME/.local/bin/unsplash"
+if [ ! -d $BINARY_DIR ]; then
+    mkdir "$BINARY_DIR"
+fi
+
+ln -f -s -v "$INSTALLATION_DIR/bin/unsplash_linux.sh" "$BINARY_DIR/unsplash"
 ln -f -s -v "$INSTALLATION_DIR/resources/unsplash.desktop" "$HOME"/.config/autostart/
+grep -qxF 'export PATH="'$BINARY_DIR':$PATH"' "$HOME/.bashrc" || echo 'export PATH="'$BINARY_DIR':$PATH"' >> "$HOME/.bashrc"
+
 
 step "⚙️  Configuring..."
 
@@ -45,11 +52,11 @@ read screen_res
 printf "Keywords (aerial): "
 read keywords
 
-unsplash config set resolution $screen_res
-unsplash config set keywords $keywords
+"$BINARY_DIR/unsplash" config set resolution $screen_res
+"$BINARY_DIR/unsplash" config set keywords $keywords
 
 step "🖼️  Setting first wallpaper..."
 
-unsplash set
+"$BINARY_DIR/unsplash" set
 
 step "🎉 DONE! Use 'unsplash --help' for more commands."
