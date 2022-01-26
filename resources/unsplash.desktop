@@ -1,6 +1,6 @@
 [Desktop Entry]
 Type=Application
-Exec=unsplash set mountains
+Exec=unsplash set
 Hidden=false
 NoDisplay=false
 X-GNOME-Autostart-enabled=true
