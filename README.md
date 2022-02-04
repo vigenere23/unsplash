@@ -1,4 +1,4 @@
-# Unsplash Bash CLI
+# Unsplash CLI
 
 Small CLI for setting your desktop wallpaper with amazing pictures from Unsplash.
 
