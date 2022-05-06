@@ -27,6 +27,7 @@ mv -f -v $TEMP_REPO_DIR/* $INSTALLATION_DIR
 
 step "🐍 Setuping Python environment..."
 
+sudo apt install -y "python3.$(python3 -c "import sys;print(sys.version_info.minor)")-venv"
 python3 -m venv "$INSTALLATION_DIR/.venv"
 source "$INSTALLATION_DIR/.venv/bin/activate" && \
 pip install --upgrade pip && \
