@@ -40,7 +40,7 @@ pip install -r "$INSTALLATION_DIR/requirements.txt"
 
 step "🛠  Creating executables..."
 
-ln -f -s -v "$INSTALLATION_DIR/bin/unsplash_mac.sh" /usr/local/bin/unsplash
+sudo ln -f -s -v "$INSTALLATION_DIR/bin/unsplash_mac.sh" /usr/local/bin/unsplash
 
 step "⚙️  Configuring..."
 
